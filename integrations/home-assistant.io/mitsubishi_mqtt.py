@@ -101,7 +101,7 @@ class MqttClimate(ClimateDevice):
                     self._current_power = "OFF"
                 else:
                     _LOGGER.debug("Power On")
-                    self._current_operation = parsed['mode'] 
+                    self._current_operation = parsed['mode']
                     self._current_power = "ON"
             elif topic == self._temperature_state_topic:
                 _LOGGER.debug('Room Temp: {0}'.format(parsed['roomTemperature']))
@@ -110,7 +110,7 @@ class MqttClimate(ClimateDevice):
                 print("unknown topic")
             self.schedule_update_ha_state()
             _LOGGER.debug("Power=%s, Operation=%s", self._current_power, self._current_operation)
-        
+
         for topic in [self._state_topic, self._temperature_state_topic]:
             mqtt.subscribe(
                 hass, topic, message_received, self._qos)
@@ -167,7 +167,7 @@ class MqttClimate(ClimateDevice):
             return STATE_OFF
         else:
             return me_to_ha[self._current_operation]
-   
+
     @property
     def operation_list(self):
         """List of available operation modes."""
@@ -186,7 +186,7 @@ class MqttClimate(ClimateDevice):
     def set_temperature(self, **kwargs):
         """Set new target temperatures."""
         if kwargs.get(ATTR_TEMPERATURE) is not None:
-            # This is also be set via the mqtt callback 
+            # This is also be set via the mqtt callback
             self._target_temperature = kwargs.get(ATTR_TEMPERATURE)
         self._publish_temperature()
         self.schedule_update_ha_state()
